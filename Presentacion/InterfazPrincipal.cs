@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using FontAwesome.Sharp;
 using Interfaz.Formularios;
-using Presentacion.Formularios;
 using pruebaLoading;
 using Color = System.Drawing.Color;
 using FontFamily = System.Drawing.FontFamily;
@@ -24,7 +23,6 @@ namespace Interfaz
         private Form formActual;
 
         Thread hilo1;
-        Thread hilo2;
 
         public InterfazPrincipal()
         {
@@ -196,58 +194,54 @@ namespace Interfaz
                     lblCaja.Text = $"S/.{datos[5].Value.ToString()}";
                 }
 
+                // Se van actualizando los datos cada minuto
                 Thread.Sleep(60000);
             }
         }
 
         private void graficoColumn()
         {
-            while (true)
+            Series s3 = new Series("Ventas");
+            s3.ChartType = SeriesChartType.Column;
+            s3.Color = Color.LimeGreen;
+            s3.Font = new Font(new FontFamily("Microsoft Sans Serif"), 9);
+            s3.LabelForeColor = Color.Lime;
+            s3.IsValueShownAsLabel = true;
+            s3.XValueType = ChartValueType.Date;
+
+            if (chartVent.InvokeRequired)
             {
-                Series s3 = new Series("Ventas");
-                s3.ChartType = SeriesChartType.Column;
-                s3.Color = Color.LimeGreen;
-                s3.Font = new Font(new FontFamily("Microsoft Sans Serif"), 9);
-                s3.LabelForeColor = Color.Lime;
-                s3.IsValueShownAsLabel = true;
-                s3.XValueType = ChartValueType.Date;
+                chartVent.Invoke(new MethodInvoker(delegate {
 
-                if (chartVent.InvokeRequired)
-                {
-                    chartVent.Invoke(new MethodInvoker(delegate {
-
-                        chartVent.Series.Clear();
-                        chartVent.Series.Add(s3);
-
-                    }));
-                }
-                else
-                {
                     chartVent.Series.Clear();
                     chartVent.Series.Add(s3);
-                }
 
-                if (chartVent.InvokeRequired)
-                {
-                    chartVent.Invoke(new MethodInvoker(delegate {
+                }));
+            }
+            else
+            {
+                chartVent.Series.Clear();
+                chartVent.Series.Add(s3);
+            }
 
-                        var ventasGrafica = Negocio.Estadistica.ventasGraficas(dtpFecIni.Value, dtpFecFin.Value);
-                        chartVent.DataSource = ventasGrafica;
-                        chartVent.Series[0].XValueMember = "fecha_pedido";
-                        chartVent.Series[0].YValueMembers = "ventas";
-                        chartVent.DataBind();
-                    }));
-                }
-                else
-                {
-                    var ventasGrafica = Negocio.Estadistica.ventasGraficas(dtpFecIni.Value,dtpFecFin.Value);
+            if (chartVent.InvokeRequired)
+            {
+                chartVent.Invoke(new MethodInvoker(delegate {
+
+                    var ventasGrafica = Negocio.Estadistica.ventasGraficas(dtpFecIni.Value, dtpFecFin.Value);
                     chartVent.DataSource = ventasGrafica;
                     chartVent.Series[0].XValueMember = "fecha_pedido";
                     chartVent.Series[0].YValueMembers = "ventas";
                     chartVent.DataBind();
-                }
-
-                Thread.Sleep(120000);
+                }));
+            }
+            else
+            {
+                var ventasGrafica = Negocio.Estadistica.ventasGraficas(dtpFecIni.Value,dtpFecFin.Value);
+                chartVent.DataSource = ventasGrafica;
+                chartVent.Series[0].XValueMember = "fecha_pedido";
+                chartVent.Series[0].YValueMembers = "ventas";
+                chartVent.DataBind();
             }
         }
 
@@ -255,9 +249,6 @@ namespace Interfaz
         {
             hilo1 = new Thread(new ThreadStart(graficosDonaBar_y_Datos));
             hilo1.Start();
-
-            hilo2 = new Thread(new ThreadStart(graficoColumn));
-            hilo2.Start();
         }
 
         private const int cGrip = 16;
@@ -489,7 +480,6 @@ namespace Interfaz
             login.Show();
             //Detener los subprocesos (threads)
             hilo1.Abort();
-            hilo2.Abort();
         }
 
         private void horaFecha_Tick(object sender, EventArgs e)
@@ -502,7 +492,16 @@ namespace Interfaz
         {
             //Detener los subprocesos (threads)
             hilo1.Abort();
-            hilo2.Abort();
+        }
+
+        private void dtpFecIni_ValueChanged(object sender, EventArgs e)
+        {
+            graficoColumn();
+        }
+
+        private void dtpFecFin_ValueChanged(object sender, EventArgs e)
+        {
+            graficoColumn();
         }
     }
 }

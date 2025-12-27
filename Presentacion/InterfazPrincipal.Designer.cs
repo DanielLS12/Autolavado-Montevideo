@@ -398,6 +398,7 @@
             this.dtpFecFin.Size = new System.Drawing.Size(172, 29);
             this.dtpFecFin.TabIndex = 46;
             this.dtpFecFin.Value = new System.DateTime(2023, 2, 22, 0, 0, 0, 0);
+            this.dtpFecFin.ValueChanged += new System.EventHandler(this.dtpFecFin_ValueChanged);
             // 
             // dtpFecIni
             // 
@@ -409,6 +410,7 @@
             this.dtpFecIni.Size = new System.Drawing.Size(172, 29);
             this.dtpFecIni.TabIndex = 45;
             this.dtpFecIni.Value = new System.DateTime(2023, 2, 25, 0, 0, 0, 0);
+            this.dtpFecIni.ValueChanged += new System.EventHandler(this.dtpFecIni_ValueChanged);
             // 
             // panel2
             // 

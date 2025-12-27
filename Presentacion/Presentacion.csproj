@@ -18,7 +18,7 @@
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>C:\Users\admin\Desktop\Instalador App Carwash Aplicacion\</PublishUrl>
+    <PublishUrl>C:\Users\admin\Desktop\Instalador App Carwash Aplicacion Release\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -28,8 +28,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>10</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationVersion>1.0.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -516,7 +516,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Datos\Datos.csproj">
-      <Project>{b195d1ba-7da9-43a2-8030-001d92c4c5f9}</Project>
+      <Project>{05f5bdf2-2b03-4561-a27b-f7c73390625a}</Project>
       <Name>Datos</Name>
     </ProjectReference>
     <ProjectReference Include="..\Negocio\Negocio.csproj">

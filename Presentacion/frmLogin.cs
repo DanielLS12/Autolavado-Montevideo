@@ -253,5 +253,10 @@ namespace pruebaLoading
 
             txtUsuario.Focus();
         }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
